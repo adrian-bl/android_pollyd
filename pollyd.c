@@ -29,7 +29,7 @@
 #include <sys/socket.h>
 #include <sys/un.h>
 
-#include "polly.h"
+#include "pollyd.h"
 
 
 

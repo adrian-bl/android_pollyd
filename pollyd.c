@@ -190,6 +190,9 @@ int get_pts_socket() {
 		}
 	}
 	
+	if(pts_fd < 0)
+		xdie("no free pts found");
+	
 	return pts_fd;
 }
 

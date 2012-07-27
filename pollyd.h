@@ -27,9 +27,10 @@
 #define AT_PREFIX "AT+XDRV="                        /* Prefix for the AT-Commands we are sending */
 
 #define USER_MEDIA  1013                            /* owner of audio socket and our UID         */
-#define GROUP_AUDIO 1005                            /* group of audio socket and our GID         */
+#define JPOLLY_PATH \
+      "/data/data/ch.blinkenlights.android.polly"   /* We will inherit our GID from the owner    */
 
-#define SEC_SLEEP   1                               /* how long we wait before terminating       */
+#define SEC_SLEEP   3                               /* how long we wait before terminating       */
 
 #define MUX_PTS_FIRST 0
 #define MUX_PTS_LAST  7
@@ -46,3 +47,4 @@ int racy_get_free_pts();
 int get_pts_socket();
 int get_audio_socket();
 int at_args_sane(char *buffer, size_t bufflen);
+gid_t get_jpolly_gid();

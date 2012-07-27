@@ -23,6 +23,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <time.h>
+#include <signal.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -58,6 +59,8 @@ int main() {
 	if(setuid(0) != -1)
 		xdie("failed to drop root!");
 	
+	/* terminates process if modem is stuck */
+	signal(SIGALRM, suicide);
 	
 	DMSG("socket setup finished. afd=%d, pfd=%d", afd, pfd);
 	
@@ -78,7 +81,11 @@ int main() {
 		/* send command to modem if it looks ok */
 		if(bytes_read >= CALLVOLUME_CMDLEN &&
 		       at_args_sane(&rbuff[atlen], bytes_read+3-atlen) == 1) {
+			
+			alarm(AT_TIMEOUT);
 			send_xdrv_command(rbuff, pfd);
+			alarm(0);
+			
 		}
 		else {
 			DMSG("silently dropping invalid command with %d bytes len", bytes_read);
@@ -215,6 +222,16 @@ gid_t get_jpolly_gid() {
 	return xstat.st_gid;
 }
 
+
+
+
+/*
+** Called by signal handler
+** -> fired if the modem is stuck
+*/
+void suicide(int sig) {
+	xdie("AT command timed out - terminating");
+}
 
 
 /*

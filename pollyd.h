@@ -31,7 +31,7 @@
       "/data/data/ch.blinkenlights.android.polly"   /* We will inherit our GID from the owner    */
 
 #define SEC_SLEEP   3                               /* how long we wait before terminating       */
-
+#define AT_TIMEOUT  3                               /* terminate if a command took longer this   */
 #define MUX_PTS_FIRST 0
 #define MUX_PTS_LAST  7
 
@@ -48,3 +48,4 @@ int get_pts_socket();
 int get_audio_socket();
 int at_args_sane(char *buffer, size_t bufflen);
 gid_t get_jpolly_gid();
+void suicide (int sig);

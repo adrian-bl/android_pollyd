@@ -51,7 +51,7 @@ int main() {
 	
 	/* only allow write access to the media user */
 	chown(SOCKET_PATH, USER_MEDIA, jgid);
-	chmod(SOCKET_PATH, S_IWUSR | S_IRUSR | S_IWGRP | S_IWUSR );
+	chmod(SOCKET_PATH, S_IWUSR | S_IRUSR | S_IWGRP | S_IRGRP );
 	
 	/* drop root */
 	setgid(jgid);

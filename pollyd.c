@@ -164,7 +164,8 @@ void send_xdrv_command(const char *cmd, int fd) {
 	
 	DMSG(">>> %s", cmd);
 	
-	write(fd, cmd, strlen(cmd));
+	if( write(fd, cmd, strlen(cmd)) == -1 )
+		xdie("mux error: write failed");
 	
 	nanosleep(&tx, NULL);
 	
